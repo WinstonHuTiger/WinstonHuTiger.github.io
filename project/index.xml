@@ -29,10 +29,11 @@ A schematic view of our architecture to estimate inter-rater uncertainty with Ba
 &lt;/figcaption>&lt;/figure>
 &lt;p>BOEMD has three main features:&lt;/p>
 &lt;ul>
-&lt;li>One-Encoder-Multiple-Decoder: the only one encoder is designed to learn the shared knowledge from segmentation while the multiple decoders that are &lt;em>aligned&lt;/em> with each rater (if the rater ids are known, attends to learn the specific features from each rater. If the rater ids are unknown, each decoder learns the shared knowledge as the encoder does.&lt;/li>
+&lt;li>One-Encoder-Multiple-Decoder: the only one encoder is designed to learn the shared knowledge from segmentation while the multiple decoders that are &lt;em>aligned&lt;/em> with each rater (if the rater ids are known, the encoder tends to learn the specific features from each rater; otherwise, the rater ids are unknown, each decoder learns the shared knowledge as the encoder does.)&lt;/li>
 &lt;li>Rater-specific Attention: each attention unit is associated with one decoder, to further enhance the ability of decoder capturing the specific knowledge from segmentation map.&lt;/li>
 &lt;li>Bayesian Modelling: usually medical imaging dataset is quite small compared to other existing vision dataset, which results in the neural network over-fitting. Adopting Bayesian Modelling in our framework helps the neural network learn the dataset distribution from a high level. Doing this also reduces over-fitting.&lt;/li>
 &lt;/ul>
+&lt;p>We also introduced a rater-aligned liver tumor dataset in this work to further demonstrate the intention of our design.&lt;/p>
 &lt;/DIV>
 &lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
