@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.17.1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script>
+      (() => {
+        const root = document.documentElement;
+        const key = 'paper-theme';
+
+        const getStored = () => {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        };
+
+        const system = () => {
+          try {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          } catch {
+            return 'dark';
+          }
+        };
+
+        const stored = getStored();
+        if (stored) root.dataset.theme = stored;
+        else root.dataset.theme = system();
+      })();
+    </script><title>Learning Brain Tumor Representation in 3D High-Resolution MR Images via Interpretable State Space Models</title><link rel="stylesheet" href="/_astro/about.BjivgDZ5.css"></head> <body class="min-h-dvh antialiased"> <div class="fixed inset-0 -z-20 bg-[radial-gradient(900px_circle_at_18%_10%,rgba(88,101,242,0.22),transparent_55%),radial-gradient(900px_circle_at_82%_18%,rgba(34,211,238,0.10),transparent_55%)]" aria-hidden="true" data-bg-tint></div> <canvas class="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-95" data-bgfx aria-hidden="true"></canvas><script>
+    (() => {
+      const canvas = document.querySelector('[data-bgfx]');
+      if (!canvas) return;
+      const url = new URL(window.location.href);
+      const forceFx = url.searchParams.get('fx') === '1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion && !forceFx) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let particles = [];
+      const mouse = { x: 0, y: 0, active: false };
+      let last = 0;
+      const frameInterval = 1000 / 30;
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Reduced count for performance and cleaner look
+        const count = Math.max(15, Math.min(60, Math.floor((width * height) / 45000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          radius: 1 + Math.random() * 1.5, // Smaller particles
+          alpha: 0.05 + Math.random() * 0.15 // Lower alpha
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          let offsetX = 0;
+          let offsetY = 0;
+          if (mouse.active) {
+            offsetX = (mouse.x - width / 2) * 0.006;
+            offsetY = (mouse.y - height / 2) * 0.006;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(140,180,255,${p.alpha})`;
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+
+      const tick = () => {
+        draw();
+        requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+          mouse.active = true;
+        },
+        { passive: true }
+      );
+      window.addEventListener('pointerleave', () => {
+        mouse.active = false;
+      });
+
+      resize();
+      requestAnimationFrame(tick);
+    })();
+  </script> <div class="mx-auto max-w-5xl px-6 py-10"> <header class="relative space-y-6 pt-6"> <div class="absolute right-0 top-0"> <button type="button" class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-xs ring-1 ring-white/10 hover:bg-white/10 " data-theme-toggle aria-label="Toggle theme"> <span data-theme-icon aria-hidden="true">◐</span> <span data-theme-label>Theme</span> </button> <script>
+  (() => {
+    const root = document.documentElement;
+    const key = 'paper-theme';
+
+    const getStored = () => {
+      try { return localStorage.getItem(key); } catch { return null; }
+    };
+    const setStored = (v) => {
+      try { localStorage.setItem(key, v); } catch {}
+    };
+
+    const system = () => {
+      try {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } catch {
+        return 'dark';
+      }
+    };
+
+    const current = () => root.dataset.theme || 'dark';
+
+    const apply = (t) => {
+      root.dataset.theme = t;
+      setStored(t);
+    };
+
+    // init (do not override if theme was already set earlier)
+    const stored = getStored();
+    if (stored) apply(stored);
+    else if (!root.dataset.theme) apply(system());
+
+    const btns = document.querySelectorAll('[data-theme-toggle]');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        apply(next);
+      });
+    });
+  })();
+</script> </div> <div class="space-y-3 text-center"> <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Learning Brain Tumor Representation in 3D High-Resolution MR Images via Interpretable State Space Models</h1> <div class="text-sm sm:text-base" style="color: var(--muted)"> <span>  <a class="oc-link" href="https://winstonhutiger.github.io/">Qingqiao Hu</a>  <sup>1</sup> </span><span> ,  <a class="oc-link" href="https://dwan.ch/">Daoan Zhang</a>  <sup>2</sup> </span><span> ,  <a class="oc-link" href="https://www.cs.rochester.edu/u/jluo/">Jiebo Luo</a>  <sup>2</sup> </span><span> ,  <a class="oc-link" href="https://www.researchgate.net/profile/Zhenyu-Gong-2">Zhenyu Gong</a>  <sup>3</sup> </span><span> ,  <a class="oc-link" href="https://www.professoren.tum.de/en/wiestler-benedikt">Benedikt Wiestler</a>  <sup>3</sup> </span><span> ,  <a class="oc-link" href="https://faculty.sustech.edu.cn/zhangjg/en/">Jianguo Zhang</a>  <sup>4</sup> </span><span> ,  <a class="oc-link" href="https://hongweilibran.github.io/">Hongwei Bran Li</a>  <sup>5</sup> </span> </div> <div class="text-sm sm:text-base" style="color: var(--muted)"> <span>  <sup>1</sup> <a class="oc-link" href="https://www.stonybrook.edu/">Stony Brook University</a> </span><span> ,  <sup>2</sup> <a class="oc-link" href="https://www.rochester.edu/">University of Rochester</a> </span><span> ,  <sup>3</sup> <a class="oc-link" href="https://www.tum.de/en/">Technical University of Munich</a> </span><span> ,  <sup>4</sup> <a class="oc-link" href="https://www.sustech.edu.cn/en/">Southern University of Science and Technology</a> </span><span> ,  <sup>5</sup> <span>MGH/Harvard Medical School</span> </span> </div>  <p class="mx-auto max-w-3xl" style="color: var(--muted)">SSM-based masked autoencoder for high-resolution 3D multi-contrast MR images with interpretable latent-to-spatial mapping.</p> <div class="flex flex-wrap justify-center gap-3 pt-2"> <a class="rounded-full bg-white/5 px-5 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10" href="https://arxiv.org/pdf/2409.07746">Paper</a> <a class="rounded-full bg-white/5 px-5 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10" href="https://github.com/WinstonHuTiger/mamba_mae">Code</a>   </div> <div class="flex justify-between pt-4 text-sm" style="color: var(--muted)"> <a class="hover:text-white" href="/projects">← Projects</a> <a class="hover:text-white" href="/blog">Blog →</a> </div> </div> </header> <main class="pt-10"> <article class="prose prose-invert max-w-none prose-a:text-sky-200 prose-a:no-underline hover:prose-a:underline"> <h2 id="abstract">Abstract</h2>
+<p>Learning meaningful and interpretable representations from high-dimensional volumetric magnetic resonance (MR) images is essential for advancing personalized medicine. While Vision Transformers (ViTs) have shown promise in handling image data, their application to 3D multi-contrast MR images faces challenges due to computational complexity and interpretability. To address this, we propose a novel state-space-model (SSM)-based masked autoencoder which scales ViT-like models to handle high-resolution data effectively while also enhancing the interpretability of learned representations. We propose a latent-to-spatial mapping technique that enables direct visualization of how latent features correspond to specific regions in the input volumes in the context of SSM. We validate our method on two key neuro-oncology tasks: identification of isocitrate dehydrogenase mutation status and 1p/19q co-deletion classification, achieving state-of-the-art accuracy. Our results highlight the potential of SSM-based self-supervised learning to transform radiomics analysis by combining efficiency and interpretability.</p>
+<h2 id="motivation">Motivation</h2>
+<p>Radiomics offers a promising non-invasive alternative, leveraging high-dimensional imaging data from routine MR scans to capture the complex biological behavior of gliomas. However, the high dimensionality and intricate spatial structure of glioma radiomics pose significant computational challenges. Our work addresses these challenges by introducing a novel SSM-based approach capable of efficiently processing high-resolution 3D MR images, improving the accuracy of non-invasive tumor subtyping.</p>
+<h2 id="approach">Approach</h2>
+<p><img src="/projects/mamba_mae/main_fig_mae.png" alt="SSM-based masked autoencoder overview"></p>
+<p><em>Figure 1: <strong>Left</strong>: Pre-training a state space model to learn effective representations for 3D multi-contrast MR images. <strong>Right</strong>: Details of the SSM encoder and decoder. All the vanilla ViT attention blocks in MAE are replaced by SSM blocks, while preserving the same pre-training strategy by random masking and reconstruction. The scaled architecture effectively captures global representations for high-resolution data.</em></p>
+<h2 id="interpretable-latent-to-spatial-map">Interpretable Latent-to-Spatial Map</h2>
+<p>As illustrated below, our model’s activations are predominantly concentrated around tumor regions, with the brighter areas indicating regions of interest.</p>
+<p><img src="/projects/mamba_mae/mamba_visualization.png" alt="Latent-to-spatial visualization"></p>
+<p><em>Figure 2: The comparison of saliency maps between the vanilla ViT with a patch size of 16 and our SSM-based model with a patch size of 4. (a) and (b) represent samples with IDH label 0 and 1, respectively; (c) and (d) represent samples with 1p/19q co-deletion label 0 and 1, respectively.</em></p>
+<h2 id="linear-scaling-ability">Linear Scaling Ability</h2>
+<p>The results below indicate that the linearly scaled model, benefiting from its ability to capture both fine-grained and global features, possesses strong linear scaling capabilities.</p>
+<p>5-fold cross-validation results for IDH mutation status classification and 1p/19q co-deletion classification using linearly scaled model across different patch sizes $p \in {4, 16, 32}$:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Patch size</th><th>Sequence length</th><th>Accuracy (IDH)</th><th>F1-score (IDH)</th><th>AUC (IDH)</th><th>Accuracy (1p/19q)</th><th>F1-score (1p/19q)</th><th>AUC (1p/19q)</th></tr></thead><tbody><tr><td>32</td><td>125</td><td>0.978</td><td>0.967</td><td>0.997</td><td>0.896</td><td>0.797</td><td>0.947</td></tr><tr><td>16</td><td>1000</td><td>0.988</td><td>0.980</td><td>0.997</td><td>0.911</td><td>0.827</td><td>0.944</td></tr><tr><td>4</td><td>64000</td><td><strong>0.998</strong></td><td><strong>0.997</strong></td><td><strong>0.999</strong></td><td><strong>0.911</strong></td><td><strong>0.832</strong></td><td><strong>0.958</strong></td></tr></tbody></table>
+<h2 id="citation">Citation</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bibtex"><code><span class="line"><span style="color:#F97583">@misc</span><span style="color:#E1E4E8">{</span><span style="color:#B392F0">hu2024learningbraintumorrepresentation</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      title</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">Learning Brain Tumor Representation in 3D High-Resolution MR Images via Interpretable State Space Models</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      author</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">Qingqiao Hu and Daoan Zhang and Jiebo Luo and Zhenyu Gong and Benedikt Wiestler and Jianguo Zhang and Hongwei Bran Li</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      year</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">2024</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      eprint</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">2409.07746</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      archivePrefix</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">arXiv</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      primaryClass</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">{</span><span style="color:#E1E4E8">cs.CV</span><span style="color:#9ECBFF">}</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre> </article> </main> <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'all'
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script><script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script> </div> </body></html>

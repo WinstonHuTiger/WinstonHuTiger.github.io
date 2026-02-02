@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.17.1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><title>Blog — WinstonHuTiger</title><link rel="stylesheet" href="/_astro/about.BjivgDZ5.css"></head> <body class="min-h-dvh antialiased"> <!-- Discord-like dark background tint (subtle) --> <div class="fixed inset-0 -z-20 bg-[radial-gradient(900px_circle_at_18%_10%,rgba(88,101,242,0.22),transparent_55%),radial-gradient(900px_circle_at_82%_18%,rgba(34,211,238,0.10),transparent_55%)]" aria-hidden="true" data-bg-tint></div> <canvas class="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-95" data-bgfx aria-hidden="true"></canvas><script>
+    (() => {
+      const canvas = document.querySelector('[data-bgfx]');
+      if (!canvas) return;
+      const url = new URL(window.location.href);
+      const forceFx = url.searchParams.get('fx') === '1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion && !forceFx) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let particles = [];
+      const mouse = { x: 0, y: 0, active: false };
+      let last = 0;
+      const frameInterval = 1000 / 30;
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Reduced count for performance and cleaner look
+        const count = Math.max(15, Math.min(60, Math.floor((width * height) / 45000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          radius: 1 + Math.random() * 1.5, // Smaller particles
+          alpha: 0.05 + Math.random() * 0.15 // Lower alpha
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          let offsetX = 0;
+          let offsetY = 0;
+          if (mouse.active) {
+            offsetX = (mouse.x - width / 2) * 0.006;
+            offsetY = (mouse.y - height / 2) * 0.006;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(140,180,255,${p.alpha})`;
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+
+      const tick = () => {
+        draw();
+        requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+          mouse.active = true;
+        },
+        { passive: true }
+      );
+      window.addEventListener('pointerleave', () => {
+        mouse.active = false;
+      });
+
+      resize();
+      requestAnimationFrame(tick);
+    })();
+  </script> <div class="mx-auto max-w-4xl px-6 py-12 md:py-20">  <main class="space-y-8"> <header class="space-y-3"> <div class="flex items-center justify-between gap-4"> <a class="text-sm text-neutral-400 hover:text-white" href="/">← Home</a> <a class="text-sm text-neutral-300 hover:text-white" href="/projects">Projects →</a> </div> <h1 class="text-3xl font-semibold tracking-tight">Blog</h1> </header> <section class="flex flex-wrap gap-2"> <a class="rounded-full bg-white/5 px-3 py-1 text-xs text-neutral-200 ring-1 ring-white/10 hover:bg-white/10" href="/blog/tags">Browse all tags →</a>  </section> <section class="space-y-3"> <a class="block rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 hover:bg-white/10" href="/blog/starting_phd"> <div class="flex items-baseline justify-between gap-3"> <h2 class="text-lg font-medium">Start my PhD journey at Stony Brook University</h2> <time class="text-xs text-neutral-500"> Aug 28, 2024 </time> </div> <p class="mt-2 text-sm text-neutral-300">Start my PhD journey at Stony Brook University</p> <div class="mt-3 flex flex-wrap gap-2">  </div> </a> </section> </main>  </div> </body></html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.17.1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script>
+      (() => {
+        const root = document.documentElement;
+        const key = 'paper-theme';
+
+        const getStored = () => {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        };
+
+        const system = () => {
+          try {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          } catch {
+            return 'dark';
+          }
+        };
+
+        const stored = getStored();
+        if (stored) root.dataset.theme = stored;
+        else root.dataset.theme = system();
+      })();
+    </script><title>Efficient Whole Slide Pathology VQA via Token Compression</title><link rel="stylesheet" href="/_astro/about.BjivgDZ5.css"></head> <body class="min-h-dvh antialiased"> <div class="fixed inset-0 -z-20 bg-[radial-gradient(900px_circle_at_18%_10%,rgba(88,101,242,0.22),transparent_55%),radial-gradient(900px_circle_at_82%_18%,rgba(34,211,238,0.10),transparent_55%)]" aria-hidden="true" data-bg-tint></div> <canvas class="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-95" data-bgfx aria-hidden="true"></canvas><script>
+    (() => {
+      const canvas = document.querySelector('[data-bgfx]');
+      if (!canvas) return;
+      const url = new URL(window.location.href);
+      const forceFx = url.searchParams.get('fx') === '1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion && !forceFx) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let particles = [];
+      const mouse = { x: 0, y: 0, active: false };
+      let last = 0;
+      const frameInterval = 1000 / 30;
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Reduced count for performance and cleaner look
+        const count = Math.max(15, Math.min(60, Math.floor((width * height) / 45000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          radius: 1 + Math.random() * 1.5, // Smaller particles
+          alpha: 0.05 + Math.random() * 0.15 // Lower alpha
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          let offsetX = 0;
+          let offsetY = 0;
+          if (mouse.active) {
+            offsetX = (mouse.x - width / 2) * 0.006;
+            offsetY = (mouse.y - height / 2) * 0.006;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(140,180,255,${p.alpha})`;
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+
+      const tick = () => {
+        draw();
+        requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+          mouse.active = true;
+        },
+        { passive: true }
+      );
+      window.addEventListener('pointerleave', () => {
+        mouse.active = false;
+      });
+
+      resize();
+      requestAnimationFrame(tick);
+    })();
+  </script> <div class="mx-auto max-w-5xl px-6 py-10"> <header class="relative space-y-6 pt-6"> <div class="absolute right-0 top-0"> <button type="button" class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-xs ring-1 ring-white/10 hover:bg-white/10 " data-theme-toggle aria-label="Toggle theme"> <span data-theme-icon aria-hidden="true">◐</span> <span data-theme-label>Theme</span> </button> <script>
+  (() => {
+    const root = document.documentElement;
+    const key = 'paper-theme';
+
+    const getStored = () => {
+      try { return localStorage.getItem(key); } catch { return null; }
+    };
+    const setStored = (v) => {
+      try { localStorage.setItem(key, v); } catch {}
+    };
+
+    const system = () => {
+      try {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } catch {
+        return 'dark';
+      }
+    };
+
+    const current = () => root.dataset.theme || 'dark';
+
+    const apply = (t) => {
+      root.dataset.theme = t;
+      setStored(t);
+    };
+
+    // init (do not override if theme was already set earlier)
+    const stored = getStored();
+    if (stored) apply(stored);
+    else if (!root.dataset.theme) apply(system());
+
+    const btns = document.querySelectorAll('[data-theme-toggle]');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        apply(next);
+      });
+    });
+  })();
+</script> </div> <div class="space-y-3 text-center"> <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Efficient Whole Slide Pathology VQA via Token Compression</h1> <div class="text-sm sm:text-base" style="color: var(--muted)"> <span>  <span>Weimin Lyu</span> <sup>*</sup>  </span><span> ,  <a class="oc-link" href="https://winstonhutiger.github.io/">Qingqiao Hu</a> <sup>*</sup>  </span><span> ,  <span>Kehan Qi</span>   </span><span> ,  <span>Zhan Shi</span>   </span><span> ,  <span>Wentao Huang</span>   </span><span> ,  <span>Saumya Gupta</span>   </span><span> ,  <span>Chao Chen</span>   </span> </div>  <div class="text-xs" style="color: var(--muted)">* Equal contribution</div>  <div class="flex flex-wrap justify-center gap-3 pt-2"> <a class="rounded-full bg-white/5 px-5 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10" href="https://arxiv.org/pdf/2507.14497">Paper</a>    </div> <div class="flex justify-between pt-4 text-sm" style="color: var(--muted)"> <a class="hover:text-white" href="/projects">← Projects</a> <a class="hover:text-white" href="/blog">Blog →</a> </div> </div> </header> <main class="pt-10"> <article class="prose prose-invert max-w-none prose-a:text-sky-200 prose-a:no-underline hover:prose-a:underline"> <p>In this project, we propose the very first MLLM architecture, named <b>Token Compression Pathology LLaVA (TCP-LLaVA)</b> to perform WSI VQA via token compression.</p>
+<h2 id="abstract">Abstract</h2>
+<p>Whole-slide images (WSIs) in pathology can reach up
+to 100,000 ×100,000 pixels, posing significant challenges
+for multimodal large language model (MLLM) due to long
+context length and high computational demands. Previous
+methods typically focus on patch-level analysis or slide-level classification using CLIP-based models with multi-
+instance learning, but they lack the generative capabilities
+needed for visual question answering (VQA). More recent
+MLLM-based approaches address VQA by feeding thousands of patch tokens directly into the language model,
+which leads to excessive resource consumption. To address
+these limitations, we propose <b>Token Compression Pathology LLaVA (TCP-LLaVA)</b>, the first MLLM architecture to
+perform WSI VQA via token compression. TCP-LLaVA introduces a set of trainable compression tokens that aggregate visual and textual information through a modality compression module, inspired by the [CLS] token mechanism in BERT.</p> </article> </main> <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'all'
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script><script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script> </div> </body></html>

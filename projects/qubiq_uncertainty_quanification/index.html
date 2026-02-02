@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.17.1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><script>
+      (() => {
+        const root = document.documentElement;
+        const key = 'paper-theme';
+
+        const getStored = () => {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        };
+
+        const system = () => {
+          try {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          } catch {
+            return 'dark';
+          }
+        };
+
+        const stored = getStored();
+        if (stored) root.dataset.theme = stored;
+        else root.dataset.theme = system();
+      })();
+    </script><title>Bayeisan One-Encoder-Multiple-Decoder (BOEMD) Network</title><link rel="stylesheet" href="/_astro/about.BjivgDZ5.css"></head> <body class="min-h-dvh antialiased"> <div class="fixed inset-0 -z-20 bg-[radial-gradient(900px_circle_at_18%_10%,rgba(88,101,242,0.22),transparent_55%),radial-gradient(900px_circle_at_82%_18%,rgba(34,211,238,0.10),transparent_55%)]" aria-hidden="true" data-bg-tint></div> <canvas class="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-95" data-bgfx aria-hidden="true"></canvas><script>
+    (() => {
+      const canvas = document.querySelector('[data-bgfx]');
+      if (!canvas) return;
+      const url = new URL(window.location.href);
+      const forceFx = url.searchParams.get('fx') === '1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion && !forceFx) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let particles = [];
+      const mouse = { x: 0, y: 0, active: false };
+      let last = 0;
+      const frameInterval = 1000 / 30;
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Reduced count for performance and cleaner look
+        const count = Math.max(15, Math.min(60, Math.floor((width * height) / 45000)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          radius: 1 + Math.random() * 1.5, // Smaller particles
+          alpha: 0.05 + Math.random() * 0.15 // Lower alpha
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+        
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          let offsetX = 0;
+          let offsetY = 0;
+          if (mouse.active) {
+            offsetX = (mouse.x - width / 2) * 0.006;
+            offsetY = (mouse.y - height / 2) * 0.006;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(140,180,255,${p.alpha})`;
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+
+      const tick = () => {
+        draw();
+        requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+          mouse.active = true;
+        },
+        { passive: true }
+      );
+      window.addEventListener('pointerleave', () => {
+        mouse.active = false;
+      });
+
+      resize();
+      requestAnimationFrame(tick);
+    })();
+  </script> <div class="mx-auto max-w-5xl px-6 py-10"> <header class="relative space-y-6 pt-6"> <div class="absolute right-0 top-0"> <button type="button" class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-xs ring-1 ring-white/10 hover:bg-white/10 " data-theme-toggle aria-label="Toggle theme"> <span data-theme-icon aria-hidden="true">◐</span> <span data-theme-label>Theme</span> </button> <script>
+  (() => {
+    const root = document.documentElement;
+    const key = 'paper-theme';
+
+    const getStored = () => {
+      try { return localStorage.getItem(key); } catch { return null; }
+    };
+    const setStored = (v) => {
+      try { localStorage.setItem(key, v); } catch {}
+    };
+
+    const system = () => {
+      try {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } catch {
+        return 'dark';
+      }
+    };
+
+    const current = () => root.dataset.theme || 'dark';
+
+    const apply = (t) => {
+      root.dataset.theme = t;
+      setStored(t);
+    };
+
+    // init (do not override if theme was already set earlier)
+    const stored = getStored();
+    if (stored) apply(stored);
+    else if (!root.dataset.theme) apply(system());
+
+    const btns = document.querySelectorAll('[data-theme-toggle]');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        apply(next);
+      });
+    });
+  })();
+</script> </div> <div class="space-y-3 text-center"> <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Bayeisan One-Encoder-Multiple-Decoder (BOEMD) Network</h1> <div class="text-sm sm:text-base" style="color: var(--muted)"> <span>  <a class="oc-link" href="https://winstonhutiger.github.io/">Qingqiao Hu</a> <sup>*</sup>  </span><span> ,  <span>Hao Wang</span> <sup>*</sup>  </span><span> ,  <span>Jing Luo</span>   </span><span> ,  <span>Yunhao Luo</span>   </span><span> ,  <span>Zhiheng Zhang</span>   </span><span> ,  <span>Jan S. Kirschke</span>   </span><span> ,  <a class="oc-link" href="https://www.professoren.tum.de/en/wiestler-benedikt">Benedikt Wiestler</a>   </span><span> ,  <span>Bjoern Menze</span>   </span><span> ,  <a class="oc-link" href="https://faculty.sustech.edu.cn/zhangjg/en/">Jianguo Zhang</a>   </span><span> ,  <a class="oc-link" href="https://hongweilibran.github.io/">Hongwei Bran Li</a>   </span> </div>  <div class="text-xs" style="color: var(--muted)">* Equal contribution</div>  <div class="flex flex-wrap justify-center gap-3 pt-2"> <a class="rounded-full bg-white/5 px-5 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10" href="https://arxiv.org/pdf/2306.16556v1.pdf">Paper</a> <a class="rounded-full bg-white/5 px-5 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10" href="https://github.com/HaoWang420/bOEMD-net">Code</a>   </div> <div class="flex justify-between pt-4 text-sm" style="color: var(--muted)"> <a class="hover:text-white" href="/projects">← Projects</a> <a class="hover:text-white" href="/blog">Blog →</a> </div> </div> </header> <main class="pt-10"> <article class="prose prose-invert max-w-none prose-a:text-sky-200 prose-a:no-underline hover:prose-a:underline"> <p>In this project, we<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> proposed a simple yet effective Bayesian Neural Network (BNN) framework, especifically designed for inter-rater uncertainty quantification probelm in medical imaging. We call this framework, Bayesian One-Encoder-Multiple-Decoder (BOEMD) network.</p>
+<p><img src="/media/images/uncertainty_comparison_v3_hua05f57b1381b6cbf6b945b0259f29d9c_533509_1200x1200_fit_q75_h2_lanczos_3.webp" alt="Uncertainty comparison results"></p>
+<p>Automated medical image segmentation inherently involves a certain degree of uncerainty. One key factor contributing to this uncertainty is the ambiguity that can arise in determining the boundaries of a target region of interest, primarily due to variations in image appearance. On top of this, even among experts in the field, different opinions can emerge regarding the precise definition of specific anatomical structures. Such modeling of segmentation uncertainty, known as inter-rater uncertainty is explored and analyzed in this project.</p>
+<p><img src="/media/images/main_model_v2_hu9cacbab7a997fe8a80340fdba48124ba_357025_1200x1200_fit_q75_h2_lanczos_3.webp" alt="Model overview diagram"></p>
+<p>BOEMD has three main features:</p>
+<ul>
+<li>One-Encoder-Multiple-Decoder: the only one encoder is designed to learn the shared knowledge from segmentation while the multiple decoders that are <em>aligned</em> with each rater (if the rater ids are known, the encoder tends to learn the specific features from each rater; otherwise, the rater ids are unknown, each decoder learns the shared knowledge as the encoder does.)</li>
+<li>Rater-specific Attention: each attention unit is associated with one decoder, to further enhance the ability of decoder capturing the specific knowledge from segmentation map.</li>
+<li>Bayesian Modelling: usually medical imaging dataset is quite small compared to other existing vision dataset, which results in the neural network over-fitting. Adopting Bayesian Modelling in our framework helps the neural network learn the dataset distribution from a high level. Doing this also reduces over-fitting.</li>
+</ul>
+<p>We also introduced a rater-aligned liver tumor dataset in this work to further demonstrate the intention of our design.</p>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p>Qingqiao Hu and Hao Wang made equal contribution to this project. <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section> </article> </main> <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'all'
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script><script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script> </div> </body></html>
