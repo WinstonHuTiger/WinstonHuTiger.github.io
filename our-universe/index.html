@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="zh" data-theme="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.17.1"><!-- 隐私：不被搜索引擎收录、不被跟踪 --><meta name="robots" content="noindex, nofollow, noarchive, noimageindex"><meta name="referrer" content="no-referrer"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>· · ·</title><link rel="stylesheet" href="/_astro/about.BVtkZhZ3.css">
+<link rel="stylesheet" href="/_astro/our-universe.FeHci3tH.css"></head> <body class="cy-site-shell min-h-dvh antialiased"> <div class="cy-bg-tint fixed inset-0 -z-20" aria-hidden="true" data-bg-tint></div> <canvas class="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-60" data-bgfx aria-hidden="true"></canvas><script>
+    (() => {
+      const canvas = document.querySelector('[data-bgfx]');
+      if (!canvas) return;
+      const url = new URL(window.location.href);
+      const forceFx = url.searchParams.get('fx') === '1';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion && !forceFx) return;
+
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) return;
+
+      let width = 0;
+      let height = 0;
+      let dpr = window.devicePixelRatio || 1;
+      let particles = [];
+      const mouse = { x: 0, y: 0, active: false };
+
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const density = width < 640 ? 90000 : 52000;
+        const count = Math.max(10, Math.min(width < 640 ? 28 : 64, Math.floor((width * height) / density)));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          radius: 0.6 + Math.random() * 1.3,
+          alpha: 0.08 + Math.random() * 0.18,
+          hue: Math.random() > 0.88 ? '252,238,10' : '25,224,255'
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        const scanY = (performance.now() * 0.018) % Math.max(height, 1);
+        const scan = ctx.createLinearGradient(0, scanY - 80, 0, scanY + 80);
+        scan.addColorStop(0, 'rgba(25,224,255,0)');
+        scan.addColorStop(0.5, 'rgba(25,224,255,0.04)');
+        scan.addColorStop(1, 'rgba(25,224,255,0)');
+        ctx.fillStyle = scan;
+        ctx.fillRect(0, Math.max(0, scanY - 80), width, 160);
+
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          let offsetX = 0;
+          let offsetY = 0;
+          if (mouse.active) {
+            offsetX = (mouse.x - width / 2) * 0.006;
+            offsetY = (mouse.y - height / 2) * 0.006;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${p.hue},${p.alpha})`;
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (p.alpha > 0.17) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(${p.hue},${p.alpha * 0.22})`;
+            ctx.moveTo(p.x + offsetX, p.y + offsetY);
+            ctx.lineTo(p.x + offsetX + p.vx * 34, p.y + offsetY + p.vy * 34);
+            ctx.stroke();
+          }
+        }
+      };
+
+      const tick = () => {
+        draw();
+        requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener(
+        'pointermove',
+        (event) => {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+          mouse.active = true;
+        },
+        { passive: true }
+      );
+      window.addEventListener('pointerleave', () => {
+        mouse.active = false;
+      });
+
+      resize();
+      requestAnimationFrame(tick);
+    })();
+  </script> <!-- ============ 登录终端（密码门 / 彩蛋①） ============ --> <div id="lv-gate" class="lv-gate"> <div class="lv-gate-card cy-surface"> <div class="lv-gate-head"> <span class="lv-dot"></span><span class="lv-dot"></span><span class="lv-dot"></span> <span class="lv-gate-tag">SECURE LINK // 0xLOVE</span> </div> <pre class="lv-boot" id="lv-boot"></pre> <form id="lv-form" class="lv-form" autocomplete="off" hidden> <label class="lv-label" for="lv-pw">&gt; ENTER PASSPHRASE</label> <div class="lv-input-row"> <span class="lv-prompt">$</span> <input id="lv-pw" type="password" class="lv-input" inputmode="text" autocomplete="off" spellcheck="false" aria-label="密码"> </div> <button type="submit" class="cy-button lv-auth" id="lv-auth">AUTHENTICATE</button> <p class="lv-error" id="lv-error" role="alert" aria-live="assertive"></p> </form> </div> </div> <!-- ============ 主内容（解锁 + 解密后才填充） ============ --> <main id="lv-main" class="lv-main" hidden> <!-- Hero --> <header class="lv-hero"> <p class="lv-kicker" id="lv-kicker"></p> <h1 class="lv-glitch" id="lv-glitch" data-text=""></h1> <p class="lv-sub" id="lv-sub"></p> <div class="lv-counter cy-panel"> <span class="lv-counter-num" id="lv-days">···</span> <span class="lv-counter-label" id="lv-days-label">在一起的第 N 天</span> </div> </header> <!-- 照片陈列柜 --> <section class="lv-section"> <h2 class="cy-section-title lv-h2"><span class="lv-h2-mark">//</span> 我们的记忆 · STASH</h2> <div class="lv-stash"> <div class="lv-stash-bar"> <span class="lv-stash-title">▒ MEMORY STASH</span> <span class="lv-stash-count" id="lv-stash-count">-- ITEMS</span> <span class="lv-stash-deco" aria-hidden="true"><i></i><i></i><i></i></span> </div> <div class="lv-gallery" id="lv-gallery"></div> </div> <p class="lv-gallery-empty" id="lv-gallery-empty" hidden>
+// 暂无加密照片。把照片放进 <code>private_photos/</code>，运行 <code>npm run lock-photos</code> 后再来。
+</p> </section> <!-- 情书 --> <section class="lv-section"> <h2 class="cy-section-title lv-h2"><span class="lv-h2-mark">//</span> 加密信息 · DECRYPTED</h2> <article class="lv-letter cy-surface"> <div id="lv-letter-body"></div> <p class="lv-sign" id="lv-sign"></p> </article> </section> <footer class="lv-footer"> <button id="lv-heart-egg" class="lv-heart-egg" aria-label="给你一颗心">♥</button> <p class="lv-hint">// 小提示：试试键盘 ↑ ↑ ↓ ↓ ← → ← → B A</p> </footer> </main> <!-- 照片放大层 --> <div id="lv-lightbox" class="lv-lightbox" hidden> <button class="lv-lightbox-close" id="lv-lightbox-close" aria-label="关闭">✕</button> <img id="lv-lightbox-img" src="" alt=""> </div> <!-- 彩蛋②：Konami 隐藏告白 --> <div id="lv-secret" class="lv-secret" hidden> <p class="lv-secret-text" id="lv-secret-text"></p> <button class="cy-button" id="lv-secret-close">❤︎ 收到</button> </div>  <script>
+      (() => {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const gate = document.getElementById('lv-gate');
+        const boot = document.getElementById('lv-boot');
+        const form = document.getElementById('lv-form');
+        const main = document.getElementById('lv-main');
+        const enc = new TextEncoder();
+        const dec = new TextDecoder();
+        const b64ToBytes = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+        let manifest = null;  // 照片清单 + 加密参数
+        let KEY = null;       // 解锁后内存里保存的 AES 密钥（刷新需重新输入）
+        let CONTENT = {};     // 解密出来的文字内容
+
+        fetch('/private/manifest.json', { cache: 'no-store' })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((m) => { manifest = m; })
+          .catch(() => { manifest = null; });
+
+        async function deriveKey(password) {
+          const salt = b64ToBytes(manifest.kdf.salt);
+          const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+          return crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt, iterations: manifest.kdf.iterations, hash: 'SHA-256' },
+            base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+          );
+        }
+        async function decryptB64(part) {
+          const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBytes(part.iv) }, KEY, b64ToBytes(part.ct));
+          return pt;
+        }
+        async function decryptFile(path, mime) {
+          const buf = new Uint8Array(await (await fetch(path, { cache: 'no-store' })).arrayBuffer());
+          const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: buf.slice(0, 12) }, KEY, buf.slice(12));
+          return new Blob([pt], { type: mime || 'image/webp' });
+        }
+
+        // ---- 启动序列动画 ----
+        const bootLines = [
+          '> establishing secure link ........ OK',
+          '> handshake 0xLOVE ............... OK',
+          '> target: ❤  authentication required',
+        ];
+        (function typeBoot(i) {
+          if (i >= bootLines.length) { form.hidden = false; document.getElementById('lv-pw').focus(); return; }
+          boot.textContent += (i ? '\n' : '') + bootLines[i];
+          setTimeout(() => typeBoot(i + 1), reduce ? 0 : 420);
+        })(0);
+
+        function reveal() {
+          gate.classList.add('is-open');
+          setTimeout(() => { gate.hidden = true; }, 650);
+          main.hidden = false;
+          startMain();
+        }
+
+        // ---- 验证密码 + 解密文字 ----
+        let attempts = 0;
+        const errEl = document.getElementById('lv-error');
+        const authBtn = document.getElementById('lv-auth');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!manifest) { errEl.textContent = '> 内容未初始化，请先运行 npm run lock-photos'; return; }
+          const val = document.getElementById('lv-pw').value;
+          authBtn.disabled = true;
+          errEl.style.color = 'var(--accent2)';
+          errEl.textContent = '> deriving key…';
+          try {
+            const key = await deriveKey(val);
+            await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBytes(manifest.check.iv) }, key, b64ToBytes(manifest.check.ct));
+            KEY = key;
+            errEl.textContent = '> decrypting payload…';
+            if (manifest.content) {
+              try { CONTENT = JSON.parse(dec.decode(await decryptB64(manifest.content))); } catch { CONTENT = {}; }
+            }
+            errEl.textContent = '> ACCESS GRANTED';
+            setTimeout(reveal, 380);
+          } catch {
+            authBtn.disabled = false;
+            attempts++;
+            const card = gate.querySelector('.lv-gate-card');
+            card.classList.remove('lv-shake');
+            void card.offsetWidth;
+            card.classList.add('lv-shake');
+            errEl.style.color = 'var(--accent3)';
+            errEl.textContent = attempts >= 3 ? '> ACCESS DENIED — 提示：想想我们之间的小暗号' : '> ACCESS DENIED';
+            document.getElementById('lv-pw').select();
+          }
+        });
+
+        // ============ 解锁后 ============
+        function startMain() {
+          const herName = CONTENT.herName || '你';
+          const fromName = CONTENT.fromName || '';
+
+          // Hero 名字 + glitch
+          document.getElementById('lv-kicker').textContent = `// ACCESS GRANTED — FOR ${String(herName).toUpperCase()} ONLY`;
+          const glitch = document.getElementById('lv-glitch');
+          const title = `致${herName}`;
+          glitch.textContent = title;
+          glitch.setAttribute('data-text', title);
+
+          // 副标题打字
+          const sub = document.getElementById('lv-sub');
+          const subText = '// 文字和照片都加密了，只解密给你一个人。';
+          if (reduce) { sub.textContent = subText; sub.classList.add('is-done'); }
+          else { let i = 0; (function t() { if (i <= subText.length) { sub.textContent = subText.slice(0, i++); setTimeout(t, 38); } else sub.classList.add('is-done'); })(); }
+
+          // 在一起天数
+          const daysEl = document.getElementById('lv-days');
+          const label = document.getElementById('lv-days-label');
+          if (CONTENT.anniversary) {
+            const start = new Date(CONTENT.anniversary + 'T00:00:00');
+            const days = Math.max(0, Math.floor((Date.now() - start.getTime()) / 86400000));
+            if (!Number.isNaN(days)) {
+              label.textContent = `在一起的第 ${days} 天`;
+              if (reduce) daysEl.textContent = String(days);
+              else { const t0 = performance.now(); (function up(now) { const p = Math.min(1, (now - t0) / 1100); const e2 = 1 - Math.pow(1 - p, 3); daysEl.textContent = String(Math.floor(days * e2)); if (p < 1) requestAnimationFrame(up); else daysEl.textContent = String(days); })(t0); }
+            }
+          } else { label.textContent = '我们的故事'; daysEl.textContent = '∞'; }
+
+          // 情书正文（解密后注入）
+          const body = document.getElementById('lv-letter-body');
+          (CONTENT.letter || ['（在 private_content.json 里写下你的话）']).forEach((para) => {
+            const p = document.createElement('p');
+            p.className = 'lv-line';
+            p.dataset.text = para;
+            p.textContent = para;
+            body.appendChild(p);
+          });
+          document.getElementById('lv-sign').textContent = fromName ? `— ${fromName}` : '';
+
+          // 情书"解密"扰码效果
+          const glyphs = '!<>-_\\/[]{}—=+*^?#01ABCDEF爱你想';
+          function scramble(el) {
+            const target = el.dataset.text || el.textContent;
+            if (reduce) { el.textContent = target; return; }
+            el.classList.add('is-scrambling');
+            let frame = 0; const dur = Math.min(60, 14 + target.length);
+            (function run() {
+              let out = '';
+              for (let i = 0; i < target.length; i++) out += (i < (frame / dur) * target.length) ? target[i] : glyphs[(Math.random() * glyphs.length) | 0];
+              el.textContent = out;
+              if (frame++ < dur) requestAnimationFrame(run);
+              else { el.textContent = target; el.classList.remove('is-scrambling'); }
+            })();
+          }
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach((en) => { if (en.isIntersecting) { scramble(en.target); io.unobserve(en.target); } });
+          }, { threshold: 0.55 });
+          document.querySelectorAll('.lv-line').forEach((el) => io.observe(el));
+
+          // 画廊
+          buildGallery(CONTENT.captions || []);
+
+          // 点击迸发爱心
+          function spawnHeart(x, y) {
+            const h = document.createElement('span');
+            h.className = 'lv-fheart';
+            h.textContent = ['♥', '❤', '💗', '💖'][(Math.random() * 4) | 0];
+            h.style.left = x + 'px'; h.style.top = y + 'px';
+            h.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+            h.style.setProperty('--s', (1 + Math.random() * 1.1) + 'rem');
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1600);
+          }
+          main.addEventListener('click', (e) => { if (e.target.closest('.lv-photo')) return; spawnHeart(e.clientX, e.clientY); });
+          document.getElementById('lv-heart-egg').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const r = e.target.getBoundingClientRect();
+            for (let i = 0; i < 12; i++) setTimeout(() => spawnHeart(r.left + r.width / 2 + (Math.random() * 80 - 40), r.top), i * 50);
+          });
+
+          // 彩蛋②：Konami
+          const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+          let pos = 0;
+          const secret = document.getElementById('lv-secret');
+          const secretText = document.getElementById('lv-secret-text');
+          window.addEventListener('keydown', (e) => {
+            const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+            pos = (k === code[pos]) ? pos + 1 : (k === code[0] ? 1 : 0);
+            if (pos === code.length) {
+              pos = 0;
+              secretText.textContent = CONTENT.secretMessage || '我爱你 ❤️';
+              secret.hidden = false;
+              for (let i = 0; i < 28; i++) setTimeout(() => spawnHeart(Math.random() * window.innerWidth, window.innerHeight - 40), i * 60);
+            }
+          });
+          document.getElementById('lv-secret-close').addEventListener('click', () => { secret.hidden = true; });
+        }
+
+        // ---- 构建并解密陈列柜 ----
+        function buildGallery(captions) {
+          const cont = document.getElementById('lv-gallery');
+          const empty = document.getElementById('lv-gallery-empty');
+          const countEl = document.getElementById('lv-stash-count');
+          const photos = (manifest && manifest.photos) || [];
+          if (!photos.length) { empty.hidden = false; countEl.textContent = '0 ITEMS'; return; }
+          countEl.textContent = `${photos.length} ITEMS // DECRYPTED`;
+
+          const lb = document.getElementById('lv-lightbox');
+          const lbImg = document.getElementById('lv-lightbox-img');
+
+          // 打开：像翻开一页那样，绕左边缘 3D 旋转铺平
+          function openLightbox(btn) {
+            if (!btn._url) return;
+            lbImg.src = btn._url;
+            lb.hidden = false;
+            if (reduce) return;
+            lbImg.animate(
+              [
+                { transform: 'rotateY(-90deg)', opacity: 0.15, filter: 'brightness(1.7) saturate(1.35)' },
+                { transform: 'rotateY(7deg)',   opacity: 1,    filter: 'brightness(1.12)', offset: 0.72 },
+                { transform: 'rotateY(0deg)',   opacity: 1,    filter: 'brightness(1)' }
+              ],
+              { duration: 540, easing: 'cubic-bezier(.2,.7,.2,1)' }
+            );
+            lb.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: 'ease' });
+          }
+
+          // 关闭：再翻合回去
+          function closeLb() {
+            if (reduce || lb.hidden) { lb.hidden = true; return; }
+            const anim = lbImg.animate(
+              [
+                { transform: 'rotateY(0deg)',   opacity: 1 },
+                { transform: 'rotateY(-90deg)', opacity: 0, filter: 'brightness(1.6)' }
+              ],
+              { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' }
+            );
+            lb.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, easing: 'ease' });
+            anim.onfinish = () => { lb.hidden = true; };
+          }
+
+          document.getElementById('lv-lightbox-close').addEventListener('click', closeLb);
+          lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+          window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLb(); });
+
+          const decIO = new IntersectionObserver((entries) => {
+            entries.forEach(async (en) => {
+              if (!en.isIntersecting) return;
+              const btn = en.target; decIO.unobserve(btn);
+              try {
+                const url = URL.createObjectURL(await decryptFile(btn.dataset.enc, btn.dataset.mime));
+                btn._url = url;
+                btn.querySelector('img').src = url;
+                btn.classList.remove('lv-photo--enc');
+              } catch {
+                btn.classList.remove('lv-photo--enc');
+                btn.classList.add('lv-photo--pending');
+                btn.querySelector('.lv-photo-pending').textContent = '解密失败';
+              }
+            });
+          }, { rootMargin: '300px' });
+
+          photos.forEach((p, i) => {
+            const n = String(i + 1).padStart(2, '0');
+            const cap = captions[i] || `MEMORY #${n}`;
+            const btn = document.createElement('button');
+            btn.className = 'lv-photo lv-photo--enc';
+            btn.style.setProperty('--d', (i * 55) + 'ms');
+            btn.dataset.enc = '/private/' + p.enc;
+            btn.dataset.mime = p.mime || 'image/webp';
+            btn.setAttribute('aria-label', cap);
+
+            const idx = document.createElement('span'); idx.className = 'lv-slot-idx'; idx.textContent = n;
+            const img = document.createElement('img'); img.alt = cap;
+            const capEl = document.createElement('span'); capEl.className = 'lv-photo-cap'; capEl.textContent = '▸ ' + cap;
+            const encEl = document.createElement('span'); encEl.className = 'lv-photo-enc-label'; encEl.textContent = '🔒 DECRYPTING…';
+            const pendEl = document.createElement('span'); pendEl.className = 'lv-photo-pending'; pendEl.textContent = 'PHOTO PENDING';
+            btn.append(img, capEl, encEl, pendEl, idx);
+            btn.addEventListener('click', () => openLightbox(btn));
+            cont.appendChild(btn);
+            decIO.observe(btn);
+          });
+        }
+      })();
+    </script> </body> </html>
